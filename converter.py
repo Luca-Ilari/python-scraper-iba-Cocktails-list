@@ -1,9 +1,10 @@
 import requests
 from bs4 import BeautifulSoup
 import json
+import time
 
 # Download the HTML source code for the page
-r = requests.get("https://it.wikipedia.org/wiki/Cocktail_ufficiali_IBA")
+r = requests.get("https://en.wikipedia.org/wiki/List_of_IBA_official_cocktails")
 
 # Parse the HTML with BeautifulSoup
 soup = BeautifulSoup(r.text, "html.parser")
@@ -12,7 +13,7 @@ soup = BeautifulSoup(r.text, "html.parser")
 #content = soup.find(id="main")
 
 # Find all of the cocktail cards
-cocktail_cards = soup.find_all("li")
+cocktail_cards = soup.find_all("dt")
 
 # Create an empty list to store the cocktail dictionaries
 cocktails = []
@@ -20,26 +21,38 @@ cocktails = []
 # Iterate over the cocktail cards
 
 for card in cocktail_cards:
-    name = card.find("h3").text.strip()
+    ingredients = []
+    metods = []
+
+    name = card.text.strip()
     print(name)
 
     CocktailLink=card.find("a")
-    Cr = requests.get(CocktailLink.attrs["href"])
+    Cr = requests.get("https://en.wikipedia.org" + CocktailLink.attrs["href"])
     CocktailSoup = BeautifulSoup(Cr.text, "html.parser")
+    #lista ingredienti non formattata
+    ingredient_list = CocktailSoup.table.find_all("tr")
+    #print(ingredient_list)
+    for ingredienti in ingredient_list:
+        if "ingredients" in ingredienti.text:
+            #ingredients.append(ingrediente.find_all("li"))
+            for singolo in ingredienti.find_all("li"):
+                print(singolo)
+                ingredients.append(singolo.text)
+    
+    print(ingredients)
 
 
-################
-    if "INGREDIENTS" in card.text:
-        desc = card.text.strip()
-        desc = desc.split("\n")
-
-    ingredients = []
     cocktail = {
         "name": name,
         "ingredients": ingredients,
         "metods": metods
     }
     cocktails.append(cocktail)
+    break
+    time.sleep(10.0)
+
+print(len(cocktails))
 
 # Convert the list of cocktails to a JSON string
 json_string = json.dumps(cocktails)
