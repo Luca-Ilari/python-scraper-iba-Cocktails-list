@@ -31,17 +31,21 @@ for card in cocktail_cards:
     Cr = requests.get("https://en.wikipedia.org" + CocktailLink.attrs["href"])
     CocktailSoup = BeautifulSoup(Cr.text, "html.parser")
     #lista ingredienti non formattata
-    ingredient_list = CocktailSoup.table.find_all("tr")
-    #print(ingredient_list)
-    for ingredienti in ingredient_list:
+    Prep_Ingr = CocktailSoup.table.find_all("tr")
+    
+    #Filter only ingredients
+    for ingredienti in Prep_Ingr:
         if "ingredients" in ingredienti.text:
             #ingredients.append(ingrediente.find_all("li"))
             for singolo in ingredienti.find_all("li"):
                 print(singolo)
                 ingredients.append(singolo.text)
-    
-    print(ingredients)
 
+    #Filter preparation
+    for preparation in Prep_Ingr:
+        if "Preparation" in preparation.text:
+            print(preparation)
+            metods.append(preparation.text)
 
     cocktail = {
         "name": name,
@@ -49,8 +53,9 @@ for card in cocktail_cards:
         "metods": metods
     }
     cocktails.append(cocktail)
-    break
-    time.sleep(10.0)
+    if name=="Gin fizz":
+        break
+    time.sleep(5.0)
 
 print(len(cocktails))
 
