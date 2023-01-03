@@ -26,36 +26,43 @@ for card in cocktail_cards:
 
     name = card.text.strip()
     print(name)
+    if name != "Spicy fifty":
+        CocktailLink=card.find("a")
+        Cr = requests.get("https://en.wikipedia.org" + CocktailLink.attrs["href"])
+        CocktailSoup = BeautifulSoup(Cr.text, "html.parser")
+        #lista ingredienti non formattata
+        Prep_Ingr = CocktailSoup.table.find_all("tr")
 
-    CocktailLink=card.find("a")
-    Cr = requests.get("https://en.wikipedia.org" + CocktailLink.attrs["href"])
-    CocktailSoup = BeautifulSoup(Cr.text, "html.parser")
-    #lista ingredienti non formattata
-    Prep_Ingr = CocktailSoup.table.find_all("tr")
+        #Filter only ingredients
+        
+        for ingredienti in Prep_Ingr:
+            if "ingredients" in ingredienti.text:
+                #ingredients.append(ingrediente.find_all("li"))
+                for singolo in ingredienti.find_all("li"):
+                # print(singolo)
+                    ingredients.append(singolo.text)
+
+        #Filter preparation
+        for preparation in Prep_Ingr:
+            if "Preparation" in preparation.text:
+            #   print(preparation)
+                metods.append(preparation.text)
+
+        cocktail = {
+            "name": name,
+            "ingredients": ingredients,
+            "metods": metods
+        }
     
-    #Filter only ingredients
-    for ingredienti in Prep_Ingr:
-        if "ingredients" in ingredienti.text:
-            #ingredients.append(ingrediente.find_all("li"))
-            for singolo in ingredienti.find_all("li"):
-                print(singolo)
-                ingredients.append(singolo.text)
+    if name == "Spicy fifty":
+        cocktail = {
+            "name": "Spicy fifty",
+            "ingredients": "",
+            "metods": "metods"
+        }
 
-    #Filter preparation
-    for preparation in Prep_Ingr:
-        if "Preparation" in preparation.text:
-            print(preparation)
-            metods.append(preparation.text)
-
-    cocktail = {
-        "name": name,
-        "ingredients": ingredients,
-        "metods": metods
-    }
     cocktails.append(cocktail)
-    if name=="Gin fizz":
-        break
-    time.sleep(5.0)
+    time.sleep(0.5)
 
 print(len(cocktails))
 
