@@ -3,7 +3,7 @@ from bs4 import BeautifulSoup
 import json
 import time
 
-# Download the HTML source code for the page
+#Test Wiki.
 r = requests.get("https://en.wikipedia.org/wiki/List_of_IBA_official_cocktails")
 
 # Parse the HTML with BeautifulSoup
