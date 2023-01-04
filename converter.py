@@ -70,9 +70,8 @@ for card in cocktail_cards:
         }
     
     cocktails.append(cocktail)
-    break
     time.sleep(0.5)
-
+    
 print(len(cocktails))
 
 # Convert the list of cocktails to a JSON string
