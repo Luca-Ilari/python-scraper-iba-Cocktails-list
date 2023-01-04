@@ -31,10 +31,10 @@ for card in cocktail_cards:
     Cr = requests.get(CocktailLink.attrs["href"])
     CocktailSoup = BeautifulSoup(Cr.text, "html.parser")
     #lista ingredienti non formattata
-    Prep_Ingr = CocktailSoup.table.find_all("h3")
-    
+    Prep_Ingr = CocktailSoup.find_all("p")
+
+    ###
     #Filter only ingredients
-    
     for ingredienti in Prep_Ingr:
         if "ingredients" in ingredienti.text:
             for singolo in ingredienti.find_all("li"):
@@ -54,6 +54,7 @@ for card in cocktail_cards:
         "garnish": garnish
     }
     cocktails.append(cocktail)
+
     break
     time.sleep(10.0)
     
