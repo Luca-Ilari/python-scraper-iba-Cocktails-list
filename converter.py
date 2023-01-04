@@ -22,7 +22,7 @@ cocktails = []
 
 for card in cocktail_cards:
     ingredients = []
-    metods = []
+    
 
     name = card.text.strip()
     print(name)
@@ -52,7 +52,7 @@ for card in cocktail_cards:
         #Filter preparation
         for preparation in Prep_Ingr:
             if "Preparation" in preparation.text:
-                metods.append(preparation.text)
+                metods = preparation.text
 
         cocktail = {
             "name": name,
@@ -80,5 +80,3 @@ json_string = json.dumps(cocktails)
 # Write the JSON string to a file
 with open("cocktailsWiki.json", "w") as f:
     f.write(json_string)
-
-    # Find the ingredients list
