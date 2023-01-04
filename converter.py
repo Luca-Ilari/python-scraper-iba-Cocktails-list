@@ -52,7 +52,7 @@ for card in cocktail_cards:
         #Filter preparation
         for preparation in Prep_Ingr:
             if "Preparation" in preparation.text:
-                metods = preparation.text
+                metods = preparation.text.replace("Preparation","")
 
         cocktail = {
             "name": name,
