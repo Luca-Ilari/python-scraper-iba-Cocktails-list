@@ -37,15 +37,21 @@ for card in cocktail_cards:
         
         for ingredienti in Prep_Ingr:
             if "ingredients" in ingredienti.text:
-                #ingredients.append(ingrediente.find_all("li"))
                 for singolo in ingredienti.find_all("li"):
-                # print(singolo)
-                    ingredients.append(singolo.text)
+                    #print(singolo)
+                    if singolo.find("\u00a0") != -1:
+                        singolo = singolo.text.replace("\u00a0"," ")
+                        print(singolo)
+                    elif singolo.find("\u00e8"):
+                        singolo = singolo.text.replace("\u00e8","è")
+                        print(singolo)
+                    else:
+                        singolo = singolo.text
+                    ingredients.append(singolo)
 
         #Filter preparation
         for preparation in Prep_Ingr:
             if "Preparation" in preparation.text:
-            #   print(preparation)
                 metods.append(preparation.text)
 
         cocktail = {
@@ -53,6 +59,8 @@ for card in cocktail_cards:
             "ingredients": ingredients,
             "metods": metods
         }
+        
+
     
     if name == "Spicy fifty":
         cocktail = {
@@ -60,8 +68,9 @@ for card in cocktail_cards:
             "ingredients": "",
             "metods": "metods"
         }
-
+    
     cocktails.append(cocktail)
+    break
     time.sleep(0.5)
 
 print(len(cocktails))
