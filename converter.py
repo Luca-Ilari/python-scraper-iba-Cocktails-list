@@ -79,7 +79,8 @@ for card in cocktail_cards:
     }
     cocktails.append(cocktail)
     print (cocktails)
-    time.sleep(10.0)
+    break
+    time.sleep(60.0)
     
 #print(len(cocktails))
 
