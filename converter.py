@@ -22,7 +22,9 @@ cocktails = []
 
 for card in cocktail_cards:
     ingredients = []
-
+    note="N/A"
+    garnish="N/A"
+    time.sleep(2.0)
     CocktailLink=card.find("h3").find('a')
 
     name=CocktailLink.text.strip()
@@ -31,31 +33,52 @@ for card in cocktail_cards:
     Cr = requests.get(CocktailLink.attrs["href"])
     CocktailSoup = BeautifulSoup(Cr.text, "html.parser")
     #lista ingredienti non formattata
-    Prep_Ingr = CocktailSoup.find_all("p")
-
-    ###
-    #Filter only ingredients
-    for ingredienti in Prep_Ingr:
-        if "ingredients" in ingredienti.text:
-            for singolo in ingredienti.find_all("li"):
-                singolo = singolo.text
-                ingredients.append(singolo)
-
-    #Filter preparation
-    for preparation in Prep_Ingr:
-        if "Preparation" in preparation.text:
-            metods = preparation.text.replace("Preparation","")
+    Prep_Ingr = CocktailSoup.find_all("div", {"class": "et_pb_module et_pb_post_content et_pb_post_content_0_tb_body blog-post-content"})
+    Singoli_p = Prep_Ingr[0].find_all("p")
+    i=0
+    for par in (Singoli_p):
+        if i == 0:
+            #Ingredients
+            for line in par:
+                if line.text: #remove </br> from <p>
+                    unit="N/A"
+                    ammount="N/A"
+                    if "ml" in line:
+                        unit = "ml"
+                    else:
+                        unit= ""
+                    if line.split("ml")[0]:
+                       ammount = line.text.split("ml")[0]
+                       spirit = line.split("ml")[1]
+                    else:
+                        spirit=line.strip
+                    Single={
+                    "unit": unit.strip(),
+                    "amount": ammount.strip(),
+                    "ingredient": spirit.strip(),
+                    }
+                    ingredients.append(Single)
+            
+        if i == 1:
+            #metods
+            metods = par.text
+        if i == 2:
+            #garnish
+            garnish = par.text
+        if i == 3:
+            #note
+            note = par.text
+        i=i+1
 
     cocktail = {
         "name": name,
         "ingredients": ingredients,
         "metods": metods,
-        "note": note,
-        "garnish": garnish
+        "garnish": garnish,
+        "note": note
     }
     cocktails.append(cocktail)
-
-    break
+    print (cocktails)
     time.sleep(10.0)
     
 #print(len(cocktails))
