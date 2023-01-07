@@ -92,5 +92,5 @@ for card in cocktail_cards:
 json_string = json.dumps(cocktails)
 
 # Write the JSON string to a file
-with open("cocktailsWiki.json", "w") as f:
+with open("cocktails.json", "w") as f:
     f.write(json_string)
