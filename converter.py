@@ -3,9 +3,9 @@ from bs4 import BeautifulSoup
 import json
 import time
 
-
+headers = {'User-Agent': 'Mozilla/5.0 (Windows NT 6.1; WOW64; rv:20.0) Gecko/20100101 Firefox/20.0'}
 # Download the HTML source code for the page
-r = requests.get("https://iba-world.com/category/iba-cocktails/")
+r = requests.get("https://iba-world.com/category/iba-cocktails/", headers=headers)
 
 
 # Parse the HTML with BeautifulSoup
