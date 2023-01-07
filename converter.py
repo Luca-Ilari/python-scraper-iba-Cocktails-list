@@ -3,8 +3,10 @@ from bs4 import BeautifulSoup
 import json
 import time
 
+
 # Download the HTML source code for the page
 r = requests.get("https://iba-world.com/category/iba-cocktails/")
+
 
 # Parse the HTML with BeautifulSoup
 soup = BeautifulSoup(r.text, "html.parser")
@@ -22,10 +24,12 @@ cocktails = []
 
 for card in cocktail_cards:
     ingredients = []
+
     note="N/A"
     garnish="N/A"
     time.sleep(2.0)
     CocktailLink=card.find("h3").find('a')
+
 
     name=CocktailLink.text.strip()
     print(name)
@@ -90,5 +94,3 @@ json_string = json.dumps(cocktails)
 # Write the JSON string to a file
 with open("cocktailsWiki.json", "w") as f:
     f.write(json_string)
-
-    # Find the ingredients list
