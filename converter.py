@@ -61,7 +61,7 @@ for card in cocktail_cards:
             
         if i == 1:
             #metods
-            metods = par.text
+            methods = par.text
         if i == 2:
             #garnish
             garnish = par.text
@@ -73,14 +73,14 @@ for card in cocktail_cards:
     cocktail = {
         "name": name,
         "ingredients": ingredients,
-        "metods": metods,
+        "methods": methods,
         "garnish": garnish,
         "note": note
     }
     cocktails.append(cocktail)
     print (cocktails)
     time.sleep(60.0)
-    
+
     
 #print(len(cocktails))
 
