@@ -49,13 +49,11 @@ for card in cocktail_cards:
                     ammount="N/A"
                     if "ml" in line:
                         unit = "ml"
+                        ammount = line.text.split("ml")[0]
+                        spirit = line.split("ml")[1]
                     else:
-                        unit= ""
-                    if line.split("ml")[0]:
-                       ammount = line.text.split("ml")[0]
-                       spirit = line.split("ml")[1]
-                    else:
-                        spirit=line.strip()
+                        spirit=line
+                        unit= "N/A"
                     Single={
                     "unit": unit.strip(),
                     "amount": ammount.strip(),
