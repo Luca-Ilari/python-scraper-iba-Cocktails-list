@@ -3,7 +3,8 @@ from bs4 import BeautifulSoup
 import json
 import time
 
-headers = {'User-Agent': 'Mozilla/5.0 (Windows NT 6.1; WOW64; rv:20.0) Gecko/20100101 Firefox/20.0'}
+#headers = {'User-Agent': 'Mozilla/5.0 (Windows NT 6.1; WOW64; rv:20.0) Gecko/20100101 Firefox/20.0'}
+headers = {'User-Agent': 'Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/47.0.2526.111 Safari/537.36'}
 # Download the HTML source code for the page
 r = requests.get("https://iba-world.com/category/iba-cocktails/", headers=headers)
 
@@ -34,7 +35,7 @@ for card in cocktail_cards:
     name=CocktailLink.text.strip()
     print(name)
 
-    Cr = requests.get(CocktailLink.attrs["href"])
+    Cr = requests.get(CocktailLink.attrs["href"], headers=headers)
     CocktailSoup = BeautifulSoup(Cr.text, "html.parser")
     #lista ingredienti non formattata
     Prep_Ingr = CocktailSoup.find_all("div", {"class": "et_pb_module et_pb_post_content et_pb_post_content_0_tb_body blog-post-content"})
@@ -79,9 +80,9 @@ for card in cocktail_cards:
         "garnish": garnish,
         "note": note
     }
+    print (cocktail)
     cocktails.append(cocktail)
-    print (cocktails)
-    time.sleep(60.0)
+    time.sleep(30.0)
 
     
 #print(len(cocktails))
